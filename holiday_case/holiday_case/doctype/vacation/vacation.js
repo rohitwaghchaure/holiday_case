@@ -7,6 +7,7 @@ frappe.ui.form.on("Vacation", "refresh", function(frm){
 	if(frm.doc.employee && frm.doc.workflow_state != 'Approved'){
 		frm.cscript.get_employee_details()
 	}
+	frm.cscript.hide_fields()
 })
 
 frappe.ui.form.on("Vacation", "employee", function(frm){	
@@ -59,3 +60,17 @@ frappe.ui.form.on("Vacation", "flight_date", function(frm){
 	cur_frm.set_value('one_way_trip', 0)
 	cur_frm.set_value('round_trip', 0)
 })
+
+frappe.ui.form.on("Vacation", "vacation_allowance", function(frm){	
+	frm.cscript.hide_fields()
+})
+
+cur_frm.cscript.hide_fields= function(){
+	var doc = cur_frm.doc
+
+	if(parseInt(doc.vacation_allowance)==1){
+		unhide_field(['flying_ticket_budget', 'sanctioned_amount'])
+	}else{
+		hide_field(['flying_ticket_budget', 'sanctioned_amount'])
+	}
+}
