@@ -5,9 +5,16 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
-from frappe.utils import nowdate
+from frappe.utils import nowdate, cint
 
 class Vacation(Document):
+	def validate(self):
+		self.validate_flight_details()
+
+	def validate_flight_details(self):
+		if self.flight_tickets == 'Yes' and cint(self.one_way_trip) == 0 and cint(self.round_trip) == 0:
+			frappe.throw("Select flight type")
+
 	def on_submit(self):
 		# self.make_leave_application()
 		self.make_expense_claim()
