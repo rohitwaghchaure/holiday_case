@@ -1,5 +1,6 @@
 
 frappe.ui.form.on("Vacation", "refresh", function(frm){
+	console.log(frm.doc.name)
 	if(frm.doc.workflow_state == 'Rejected'){
 		frm.set_read_only()
 	}
@@ -8,6 +9,8 @@ frappe.ui.form.on("Vacation", "refresh", function(frm){
 		frm.cscript.get_employee_details()
 	}
 	frm.cscript.hide_fields()
+
+	frm.cscript.restrict_users()
 })
 
 frappe.ui.form.on("Vacation", "employee", function(frm){	
@@ -73,4 +76,16 @@ cur_frm.cscript.hide_fields= function(){
 	}else{
 		hide_field(['flying_ticket_budget', 'sanctioned_amount'])
 	}
+}
+
+cur_frm.cscript.restrict_users= function(){
+	var doc = cur_frm.doc
+	args = {
+		'doctype': doc.doctype,
+		'workflow_state': doc.workflow_state
+	}
+
+	// frappe.call({
+	// 	method: 
+	// })
 }
